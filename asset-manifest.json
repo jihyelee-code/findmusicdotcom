@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.js": "/findmusicdotcom/static/js/main.aa89391e.chunk.js",
-    "main.js.map": "/findmusicdotcom/static/js/main.aa89391e.chunk.js.map",
+    "main.js": "/findmusicdotcom/static/js/main.7994f840.chunk.js",
+    "main.js.map": "/findmusicdotcom/static/js/main.7994f840.chunk.js.map",
     "runtime-main.js": "/findmusicdotcom/static/js/runtime-main.e9cf27cc.js",
     "runtime-main.js.map": "/findmusicdotcom/static/js/runtime-main.e9cf27cc.js.map",
-    "static/js/2.7dbdb2f1.chunk.js": "/findmusicdotcom/static/js/2.7dbdb2f1.chunk.js",
-    "static/js/2.7dbdb2f1.chunk.js.map": "/findmusicdotcom/static/js/2.7dbdb2f1.chunk.js.map",
+    "static/js/2.9c4148c4.chunk.js": "/findmusicdotcom/static/js/2.9c4148c4.chunk.js",
+    "static/js/2.9c4148c4.chunk.js.map": "/findmusicdotcom/static/js/2.9c4148c4.chunk.js.map",
     "index.html": "/findmusicdotcom/index.html",
-    "precache-manifest.53723a14aa57a31c15b4426146587c39.js": "/findmusicdotcom/precache-manifest.53723a14aa57a31c15b4426146587c39.js",
+    "precache-manifest.70fc29765e0f9c6e54890037ced0d25d.js": "/findmusicdotcom/precache-manifest.70fc29765e0f9c6e54890037ced0d25d.js",
     "service-worker.js": "/findmusicdotcom/service-worker.js",
-    "static/js/2.7dbdb2f1.chunk.js.LICENSE.txt": "/findmusicdotcom/static/js/2.7dbdb2f1.chunk.js.LICENSE.txt",
+    "static/js/2.9c4148c4.chunk.js.LICENSE.txt": "/findmusicdotcom/static/js/2.9c4148c4.chunk.js.LICENSE.txt",
     "static/media/1.jpg": "/findmusicdotcom/static/media/1.fa8b297a.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.e9cf27cc.js",
-    "static/js/2.7dbdb2f1.chunk.js",
-    "static/js/main.aa89391e.chunk.js"
+    "static/js/2.9c4148c4.chunk.js",
+    "static/js/main.7994f840.chunk.js"
   ]
 }
