@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "04698698fb55467ebfdd2af7c1649ded",
+    "revision": "c2d4137b70a2f31f54b9cfb446aacbf6",
     "url": "/findmusicdotcom/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/findmusicdotcom/static/js/2.650e2aae.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "73f3abe47a9c5fd0c229",
-    "url": "/findmusicdotcom/static/js/main.f1b174b8.chunk.js"
+    "revision": "3bafea58d7a0dfb673c3",
+    "url": "/findmusicdotcom/static/js/main.04e264fd.chunk.js"
   },
   {
     "revision": "b4772c221c8327557714",
