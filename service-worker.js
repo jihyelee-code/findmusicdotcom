@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/findmusicdotcom/precache-manifest.343299d03b3497485b042945a5e96eb5.js"
+  "/findmusicdotcom/precache-manifest.d5c62bebf8c575eec8bcde22b2802611.js"
 );
 
 self.addEventListener('message', (event) => {
