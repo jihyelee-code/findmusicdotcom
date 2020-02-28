@@ -221,4 +221,4 @@ const Content = styled.span`
   font-size: 1rem;
 `;
 
-export default Artist_title;
+export default withRouter(Artist_title);

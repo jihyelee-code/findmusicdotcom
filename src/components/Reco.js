@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from 'prop-types'
+
 let currentAudio = "";
 class Reco extends React.Component {
   constructor(props) {
@@ -78,6 +80,13 @@ class Reco extends React.Component {
       </Container>
     );
   }
+}
+
+Reco.propTypes = {
+  title:PropTypes.string.isRequired,
+  preview:PropTypes.string.isRequired,
+  id : PropTypes.number.isRequired,
+  album : PropTypes.object.isRequired
 }
 const Container = styled.div`
   width: 160px;

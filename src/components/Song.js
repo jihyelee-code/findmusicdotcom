@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from 'prop-types';
 
 let currentAudio = "";
 class Song extends React.Component {
@@ -63,7 +64,14 @@ class Song extends React.Component {
     );
   }
 }
+Song.propTypes = {
+  preview:PropTypes.string.isRequired,
+  id : PropTypes.string.isRequired,
+  artist: PropTypes.string.isRequired,
+  title:PropTypes.string.isRequired,
+  album:PropTypes.string.isRequired
 
+}
 const Container = styled.div`
   background-color: rgba(240, 240, 240, 0.85);
   width: 100%;

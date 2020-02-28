@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import {PropTypes} from 'prop-types';
 class Artist extends React.Component {
   render() {
     return (
@@ -15,6 +16,11 @@ class Artist extends React.Component {
       </Link>
     );
   }
+}
+Artist.propTypes = {
+  artist : PropTypes.string.isRequired,
+  poster : PropTypes.string.isRequired,
+  name : PropTypes.string.isRequired
 }
 export default Artist;
 
