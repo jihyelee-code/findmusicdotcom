@@ -7,7 +7,10 @@ import Album from "../components/Album";
 
 const URL = "https://deezerdevs-deezer.p.rapidapi.com/search?";
 let currentPlayCheck = "";
-let selectDatas = [];
+let selectSongDatas = [];
+let selectAlbumDatas = [];
+let preSongButton = "";
+let preAlbumButton = "";
 class Result extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +20,8 @@ class Result extends React.Component {
     this.state = {
       id: props.match.params.id,
       datas: [],
-      page: 0,
+      songPage: 0,
+      albumPage: 0,
       isLoading: true
     };
   }
@@ -38,7 +42,7 @@ class Result extends React.Component {
     this.setState({
       datas: data
     });
-    this.bySelect(10);
+    selectSongDatas = this.bySelect(selectSongDatas, 10, this.state.datas);
 
     const newMapAR = data.map(each => each.artist.id);
     const settedAR = new Set(newMapAR);
@@ -67,20 +71,28 @@ class Result extends React.Component {
       artists: arrayedAR,
       albums: arrayedAB
     });
+    selectAlbumDatas = this.bySelect(selectAlbumDatas, 10, this.state.albums);
     currentPlayCheck = document.querySelectorAll("audio");
+    this.setState({
+      isLoading: false
+    });
   }
-  bySelect = num => {
-    selectDatas = [];
-    for (let i = 0; i < this.state.datas.length; i++) {
+  bySelect = (anArray, num, stateLocation) => {
+    this.setState({
+      isLoading: true
+    });
+    anArray = [];
+    for (let i = 0; i < stateLocation.length; i++) {
       let index = Math.floor(i.toString() / num);
-      if (!selectDatas[index]) {
-        selectDatas[index] = [];
+      if (!anArray[index]) {
+        anArray[index] = [];
       }
-      selectDatas[index].push(this.state.datas[i]);
+      anArray[index].push(stateLocation[i]);
     }
     this.setState({
       isLoading: true
     });
+    return anArray;
   };
   checkNeedRefresh() {
     if (this.state.id !== this.props.match.params.id) {
@@ -102,15 +114,45 @@ class Result extends React.Component {
     const distance = this.gotoAlbum.current.offsetTop - 140;
     window.scroll({ top: distance, behavior: "smooth" });
   };
-  selectHandler = e => {
-    this.bySelect(e.target.value);
+  selectSongHandler = e => {
+    selectSongDatas = this.bySelect(
+      selectSongDatas,
+      e.target.value,
+      this.state.datas
+    );
   };
-  pageHandler = e => {
+  selectAlbumHandler = e => {
+    selectAlbumDatas = this.bySelect(
+      selectAlbumDatas,
+      e.target.value,
+      this.state.albums
+    );
+  };
+  songPageHandler = e => {
     currentPlayCheck.forEach(each => (each.paused ? null : each.pause()));
     currentPlayCheck = document.querySelectorAll("audio");
     this.setState({
-      page: e.target.value - 1
+      songPage: e.target.value - 1
     });
+    if (!preSongButton) {
+      preSongButton = e.target;
+    } else {
+      preSongButton.style.backgroundColor = "white";
+      preSongButton = e.target;
+    }
+    e.target.style.backgroundColor = "rgb(200,200,200)";
+  };
+  albumPageHandler = e => {
+    this.setState({
+      albumPage: e.target.value - 1
+    });
+    if (!preAlbumButton) {
+      preAlbumButton = e.target;
+    } else {
+      preAlbumButton.style.backgroundColor = "white";
+      preAlbumButton = e.target;
+    }
+    e.target.style.backgroundColor = "rgb(200,200,200)";
   };
   render() {
     this.checkNeedRefresh();
@@ -128,15 +170,16 @@ class Result extends React.Component {
         </Navigator>
         <Div>
           <Sort ref={this.gotoSong}>BY SONGS</Sort>
-          <Select onChange={this.selectHandler}>
+          <Select onChange={this.selectSongHandler}>
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>
           </Select>
-          {selectDatas?.map((each, index) => (
+          {selectSongDatas?.map((each, index) => (
             <PageButton
               key={index}
-              onClick={this.pageHandler}
+              id={`songPageButton${index}`}
+              onClick={this.songPageHandler}
               value={index + 1}
             >
               {index + 1}
@@ -144,21 +187,19 @@ class Result extends React.Component {
           ))}
         </Div>
         <Songs>
-          {selectDatas.length > 0 ? (
-            selectDatas[this.state.page]?.map(
-              (each, index) => {
-                return (
-                  <Song
-                    key={index}
-                    id={`${each.id}`}
-                    title={each.title}
-                    preview={each.preview}
-                    artist={each.artist.name}
-                    album={each.album.cover_medium}
-                  ></Song>
-                );
-              }
-            )
+          {selectSongDatas.length > 0 ? (
+            selectSongDatas[this.state.songPage]?.map((each, index) => {
+              return (
+                <Song
+                  key={index}
+                  id={`${each.id}`}
+                  title={each.title}
+                  preview={each.preview}
+                  artist={each.artist.name}
+                  album={each.album.cover_medium}
+                ></Song>
+              );
+            })
           ) : isLoading ? (
             <Loading>Loading..</Loading>
           ) : (
@@ -189,10 +230,25 @@ class Result extends React.Component {
         </Artists>
         <Div>
           <Sort ref={this.gotoAlbum}>BY ALBUMS</Sort>
+          <Select onChange={this.selectAlbumHandler}>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+          </Select>
+          {selectAlbumDatas?.map((each, index) => (
+            <PageButton
+              key={index}
+              id={`songAlbumButton${index}`}
+              onClick={this.albumPageHandler}
+              value={index + 1}
+            >
+              {index + 1}
+            </PageButton>
+          ))}
         </Div>
         <Albums>
           {this.state.albums?.length > 0 ? (
-            this.state.albums.map((each, index) => (
+            selectAlbumDatas[this.state.albumPage]?.map((each, index) => (
               <Album
                 key={index}
                 id={index}
