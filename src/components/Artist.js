@@ -18,7 +18,7 @@ class Artist extends React.Component {
   }
 }
 Artist.propTypes = {
-  artist : PropTypes.string.isRequired,
+  artist : PropTypes.number.isRequired,
   poster : PropTypes.string.isRequired,
   name : PropTypes.string.isRequired
 }

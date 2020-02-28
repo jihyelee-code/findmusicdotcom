@@ -20,7 +20,7 @@ class Album extends React.Component {
 }
 
 Album.propTypes = {
-  album : PropTypes.string.isRequired,
+  album : PropTypes.number.isRequired,
   poster : PropTypes.string.isRequired,
   title : PropTypes.string.isRequired
 }

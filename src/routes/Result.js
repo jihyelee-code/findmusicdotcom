@@ -99,7 +99,7 @@ class Result extends React.Component {
       this.setState({
         isLoading: false
       });
-    // currentPlayCheck = document.querySelectorAll("audio");
+    
   }
   //user click 10/20/30 list item counts
   bySelect = (anArray, num, stateLocation) => {
@@ -111,7 +111,7 @@ class Result extends React.Component {
       }
       anArray[index].push(stateLocation[i]);
     }
-    // currentPlayCheck = document.querySelectorAll("audio");
+    
     return anArray;
   };
 

@@ -10,32 +10,32 @@ class Song extends React.Component {
     this.state = {
       audio: false
     };
+    this.audioRef = React.createRef();
   }
   clickHandler = e => {
     e.preventDefault();
-    const audio = e.currentTarget.nextElementSibling;
-    // audio play
-    if (this.state.audio) {
-      this.setState({
-        audio: false
-      });
-      audio.pause();
-    } else {
-    //non audio play
-      if (currentAudio) {
-        const preAudio = currentAudio;
-        // if (preAudio) {
-          preAudio.pause();
-        // }
-      }
-      currentAudio = audio;
-      this.setState({
-        audio: true
-      });
-      audio.play();
-      audio.addEventListener("ended", this.stopHandler);
-      audio.addEventListener("pause", this.stopHandler);
-    }
+    this.audioRef.current.play();
+    // const audio = e.currentTarget.nextElementSibling;
+    // // audio play
+    // if (this.state.audio) {
+    //   this.setState({
+    //     audio: false
+    //   });
+    //   audio.pause();
+    // } else {
+    // //non audio play
+    //   if (currentAudio) {
+    //     const preAudio = currentAudio;
+    //     // if (preAudio) {
+    //       preAudio.pause();
+    //     // }
+    //   }
+    //   currentAudio = audio;
+    //   this.setState({
+    //     audio: true
+    //   });
+    //   audio.play();
+    // }
   };
   stopHandler = e => {
     e.preventDefault();
@@ -56,7 +56,7 @@ class Song extends React.Component {
               🎼
             </span>
           </Button>
-          <audio id={props.id}>
+          <audio id={props.id} ref={this.audioRef} onEnded={this.stopHandler} onPause={this.stopHandler} >
             <source src={props.preview}></source>
           </audio>
         </Preview>
