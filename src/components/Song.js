@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 let currentAudio = "";
 class Song extends React.Component {
@@ -14,28 +14,17 @@ class Song extends React.Component {
   }
   clickHandler = e => {
     e.preventDefault();
-    this.audioRef.current.play();
-    // const audio = e.currentTarget.nextElementSibling;
-    // // audio play
-    // if (this.state.audio) {
-    //   this.setState({
-    //     audio: false
-    //   });
-    //   audio.pause();
-    // } else {
-    // //non audio play
-    //   if (currentAudio) {
-    //     const preAudio = currentAudio;
-    //     // if (preAudio) {
-    //       preAudio.pause();
-    //     // }
-    //   }
-    //   currentAudio = audio;
-    //   this.setState({
-    //     audio: true
-    //   });
-    //   audio.play();
-    // }
+    if (!this.audioRef.current.paused) {
+      this.audioRef.current.pause();
+      this.setState({
+        audio: false
+      });
+    } else {
+      this.audioRef.current.play();
+        this.setState({
+        audio: true
+      });
+    }
   };
   stopHandler = e => {
     e.preventDefault();
@@ -56,7 +45,12 @@ class Song extends React.Component {
               🎼
             </span>
           </Button>
-          <audio id={props.id} ref={this.audioRef} onEnded={this.stopHandler} onPause={this.stopHandler} >
+          <audio
+            id={props.id}
+            ref={this.audioRef}
+            onEnded={this.stopHandler}
+            onPause={this.stopHandler}
+          >
             <source src={props.preview}></source>
           </audio>
         </Preview>
@@ -65,19 +59,18 @@ class Song extends React.Component {
   }
 }
 Song.propTypes = {
-  preview:PropTypes.string.isRequired,
-  id : PropTypes.string.isRequired,
+  preview: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   artist: PropTypes.string.isRequired,
-  title:PropTypes.string.isRequired,
-  album:PropTypes.string.isRequired
-
-}
+  title: PropTypes.string.isRequired,
+  album: PropTypes.string.isRequired
+};
 const Container = styled.div`
   background-color: rgba(240, 240, 240, 0.85);
   width: 100%;
   display: grid;
-  grid-template-columns: 0.5fr 2.5fr 1.8fr .2fr;
-  grid-column-gap:20px;
+  grid-template-columns: 0.5fr 2.5fr 1.8fr 0.2fr;
+  grid-column-gap: 20px;
   align-items: center;
   font-size: 1.1rem;
 `;
@@ -90,20 +83,18 @@ const Poster = styled.div`
   background-size: cover;
 `;
 
-const Title = styled.span`
-`;
+const Title = styled.span``;
 const Singer = styled.span`
   text-align: center;
 `;
-const Preview = styled.div`
-`;
+const Preview = styled.div``;
 const Button = styled.button`
   background-color: rgba(0, 0, 0, 0);
   border: 0;
   outline: 0;
   cursor: pointer;
   font-size: 1.4rem;
-  padding-right:20px;
+  padding-right: 20px;
   &:hover {
     transform: scale(1.1);
   }

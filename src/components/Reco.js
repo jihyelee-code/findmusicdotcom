@@ -1,17 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 let currentAudio = "";
 class Reco extends React.Component {
   constructor(props) {
     //title, preview, album
     super(props); //id
+    this.audioRef = React.createRef();
     this.state = {
       audio: false
     };
   }
-  
+
   enterHandler = e => {
     return this.setState({
       hover: true
@@ -26,21 +27,18 @@ class Reco extends React.Component {
         });
   };
   clickHandler = e => {
-    const audio = e.currentTarget.nextElementSibling;
-    //yes music before
-    if (currentAudio) {
-      //pass to pre
-      const preAudio = currentAudio;
-      preAudio.pause();
+    if(!this.audioRef.current.paused){
+      this.audioRef.current.pause();  
+      this.setState({
+        audio: false
+      });
+    }else{
+      this.audioRef.current.play();
+      this.setState({
+        audio: true
+      });
     }
-    //set as now
-    currentAudio = audio;
-    audio.addEventListener("ended", this.endedHandler);
-    audio.addEventListener("pause", this.pauseHandler);
-    audio.play();
-    this.setState({
-      audio: true
-    });
+    
   };
   endedHandler = e => {
     // console.log("ENDED");
@@ -69,8 +67,16 @@ class Reco extends React.Component {
                   🎼
                 </span>
               </Button>
-              <audio className="audio" id={`reco${this.props.id}`}>
-                <source src={`${this.props.preview}`}></source>
+              <audio
+                className="audio"
+                id={`reco${this.props.id}`}
+                ref={this.audioRef}
+                onEnded={this.endedHandler}
+              >
+                <source
+                  src={`${this.props.preview}`}
+                  onPause={this.pauseHandler}
+                ></source>
               </audio>
             </div>
           ) : (
@@ -83,11 +89,11 @@ class Reco extends React.Component {
 }
 
 Reco.propTypes = {
-  title:PropTypes.string.isRequired,
-  preview:PropTypes.string.isRequired,
-  id : PropTypes.number.isRequired,
-  album : PropTypes.object.isRequired
-}
+  title: PropTypes.string.isRequired,
+  preview: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  album: PropTypes.object.isRequired
+};
 const Container = styled.div`
   width: 160px;
   height: 200px;
@@ -98,7 +104,7 @@ const Container = styled.div`
   align-items: center;
   color: white;
   font-weight: 500px;
-  box-shadow: 17px 16px 0px -7px rgba(30,30,30,0.75);
+  box-shadow: 17px 16px 0px -7px rgba(30, 30, 30, 0.75);
 `;
 
 const Title = styled.div`
