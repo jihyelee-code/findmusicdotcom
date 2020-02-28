@@ -7,7 +7,7 @@ import Album from "../components/Album";
 let cancel;
 const CancelToken = axios.CancelToken;
 const URL = "https://deezerdevs-deezer.p.rapidapi.com/search?";
-let currentPlayCheck = "";
+// let currentPlayCheck = "";
 let selectSongDatas = [];
 let selectArtistDatas = [];
 let selectAlbumDatas = [];
@@ -56,6 +56,7 @@ class Result extends React.Component {
       this.setState({
         datas: data
       });
+      //organize artist data
     const newMapAR = data.map(each => each.artist.id);
     const settedAR = new Set(newMapAR);
     const arrayedAR = Array.from(settedAR);
@@ -67,7 +68,7 @@ class Result extends React.Component {
         }
       }
     }
-
+    //organize album data
     const newMapAB = data.map(each => each.album.id);
     const settedAB = new Set(newMapAB);
     const arrayedAB = Array.from(settedAB);
@@ -79,11 +80,13 @@ class Result extends React.Component {
         }
       }
     }
+    //save artist, album data
     this._isMounted &&
       this.setState({
         artists: arrayedAR,
         albums: arrayedAB
       });
+      //list with default value 10 items
     selectSongDatas = this.bySelect(selectSongDatas, 10, this.state.datas);
     selectArtistDatas = this.bySelect(
       selectArtistDatas,
@@ -98,6 +101,7 @@ class Result extends React.Component {
       });
     // currentPlayCheck = document.querySelectorAll("audio");
   }
+  //user click 10/20/30 list item counts
   bySelect = (anArray, num, stateLocation) => {
     anArray = [];
     for (let i = 0; i < stateLocation.length; i++) {
@@ -110,26 +114,32 @@ class Result extends React.Component {
     // currentPlayCheck = document.querySelectorAll("audio");
     return anArray;
   };
+
   checkNeedRefresh() {
     if (this.state.id !== this.props.match.params.id) {
       window.location.reload();
     }
   }
+  //go to top
   topHandler = e => {
     window.scroll({ top: 0, behavior: "smooth" });
   };
+  //go to song section
   songHandler = e => {
     const distance = this.gotoSong.current.offsetTop - 140;
     window.scroll({ top: distance, behavior: "smooth" });
   };
+  //go to artist section
   artistHandler = e => {
     const distance = this.gotoArtist.current.offsetTop - 140;
     window.scroll({ top: distance, behavior: "smooth" });
   };
+  //go to album section
   albumHandler = e => {
     const distance = this.gotoAlbum.current.offsetTop - 140;
     window.scroll({ top: distance, behavior: "smooth" });
   };
+  //song list count handler
   selectSongHandler = e => {
     this._isMounted &&
       this.setState({
@@ -145,6 +155,7 @@ class Result extends React.Component {
         isLoading: false
       });
   };
+  //artist list count handler
   selectArtistHandler = e => {
     this._isMounted &&
     this.setState({
@@ -160,6 +171,7 @@ class Result extends React.Component {
       isLoading: false
     });
   };
+  //album list count handler
   selectAlbumHandler = e => {
     this._isMounted &&
     this.setState({
@@ -175,6 +187,7 @@ class Result extends React.Component {
       isLoading: false
     });
   };
+
   buttonBackgroundChanger(preButton, target) {
     if (!preSongButton) {
       preButton = target;
@@ -185,6 +198,7 @@ class Result extends React.Component {
     target.style.backgroundColor = "rgb(200,200,200)";
     return preButton;
   }
+  //song pages
   songPageHandler = e => {
     this._isMounted &&
       this.setState({
@@ -192,6 +206,7 @@ class Result extends React.Component {
       });
     preSongButton = this.buttonBackgroundChanger(preSongButton, e.target);
   };
+  //artist pages
   artistPageHandler = e => {
     this._isMounted &&
       this.setState({
@@ -199,6 +214,7 @@ class Result extends React.Component {
       });
     preArtistButton = this.buttonBackgroundChanger(preArtistButton, e.target);
   };
+  //album pages
   albumPageHandler = e => {
     this._isMounted &&
       this.setState({

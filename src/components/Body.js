@@ -9,7 +9,7 @@ const RECO = [
   "fonsi",
   "eminem",
   "jovanotti",
-  "BTS"
+  "ed sheeran"
 ];
 const URL = "https://deezerdevs-deezer.p.rapidapi.com/search?";
 

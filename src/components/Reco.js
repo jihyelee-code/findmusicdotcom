@@ -9,12 +9,13 @@ class Reco extends React.Component {
       audio: false
     };
   }
-
+  
   enterHandler = e => {
     return this.setState({
       hover: true
     });
   };
+
   leaveHandler = e => {
     return this.state.audio
       ? null

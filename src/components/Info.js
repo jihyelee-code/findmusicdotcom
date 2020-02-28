@@ -32,9 +32,9 @@ const Section = styled.div`
   padding:30px;
 `;
 const Title = styled.span`
-  font-size: 1.1rem;
+  font-size: 1rem;
 `;
 const Content = styled.span`
 padding-top:10px;
-  font-size: 1rem;
+  font-size: .9rem;
 `;

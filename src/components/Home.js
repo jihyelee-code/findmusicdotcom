@@ -71,12 +71,16 @@ class Home extends React.Component {
   state = {
     input: ""
   };
+  
+  //user type input
   keyChangeHandler = e => {
     // e.preventDefault();
     this.setState({
       input: e.target.value
     });
   };
+  
+  //user press enter
   keyDownHandler = e => {
     if (e.keyCode === 13) {
       const go = document.querySelector("#go");

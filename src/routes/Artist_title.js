@@ -38,6 +38,7 @@ export class Artist_title extends React.Component {
       })
     });
 
+    // organize data
     const mapped = data.map(each => each.album.title);
     const setted = new Set(mapped);
     const newArray = Array.from(setted);
@@ -49,9 +50,11 @@ export class Artist_title extends React.Component {
     });
   
   }
+  //go to top
   topHandler = e => {
     window.scroll({ top: 0, behavior: "smooth" });
   };
+  //user change album 
   changeHandler = e => {
     this._isMounted&&this.setState({
       selected: this.state.data
@@ -218,4 +221,4 @@ const Content = styled.span`
   font-size: 1rem;
 `;
 
-export default withRouter(Artist_title);
+export default Artist_title;
