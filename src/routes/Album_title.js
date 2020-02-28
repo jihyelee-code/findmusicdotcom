@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Song from "../components/Song";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const URL = "https://deezerdevs-deezer.p.rapidapi.com/album/";
 export class Album_title extends React.Component {
@@ -33,7 +34,12 @@ export class Album_title extends React.Component {
             <Poster poster={this.state.data.cover_medium}></Poster>
             <Info>
               <Title>{this.state.data.title}</Title>
-              <Artist>Artist : {this.state.data.artist.name}</Artist>
+              <Link
+                to={`/artist/${this.state.data.artist.id}`}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <Artist>Artist : {this.state.data.artist.name}</Artist>
+              </Link>
               <Genres>
                 Genres :{" "}
                 {this.state.data.genres.data.map((each, index) => (
@@ -55,7 +61,7 @@ export class Album_title extends React.Component {
               return (
                 <Song
                   key={index}
-                  id={index}
+                  id={`$albumPage${index}`}
                   title={each.title}
                   preview={each.preview}
                   artist={each.artist.name}

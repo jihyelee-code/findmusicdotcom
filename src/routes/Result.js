@@ -4,12 +4,15 @@ import axios from "axios";
 import Song from "../components/Song";
 import Artist from "../components/Artist";
 import Album from "../components/Album";
-
+let cancel;
+const CancelToken = axios.CancelToken;
 const URL = "https://deezerdevs-deezer.p.rapidapi.com/search?";
 let currentPlayCheck = "";
 let selectSongDatas = [];
+let selectArtistDatas = [];
 let selectAlbumDatas = [];
 let preSongButton = "";
+let preArtistButton = "";
 let preAlbumButton = "";
 class Result extends React.Component {
   constructor(props) {
@@ -21,11 +24,18 @@ class Result extends React.Component {
       id: props.match.params.id,
       datas: [],
       songPage: 0,
+      artistPage: 0,
       albumPage: 0,
       isLoading: true
     };
+    this._isMounted = false;
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+    cancel();
   }
   async componentDidMount() {
+    this._isMounted = true;
     const {
       data: { data }
     } = await axios.get(`${URL}`, {
@@ -37,13 +47,16 @@ class Result extends React.Component {
       headers: {
         "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
         "x-rapidapi-key": "03afeef36cmsh1bdcf2e9a60f303p19457cjsn1f84e9465bd0"
-      }
+      },
+      cancelToken: new CancelToken(c => {
+        cancel = c;
+      })
     });
-    this.setState({
-      datas: data
-    });
-    selectSongDatas = this.bySelect(selectSongDatas, 10, this.state.datas);
-
+    this._isMounted &&
+      this.setState({
+        datas: data
+      });
+    console.log("setted this.state.datas");
     const newMapAR = data.map(each => each.artist.id);
     const settedAR = new Set(newMapAR);
     const arrayedAR = Array.from(settedAR);
@@ -67,20 +80,27 @@ class Result extends React.Component {
         }
       }
     }
-    this.setState({
-      artists: arrayedAR,
-      albums: arrayedAB
-    });
+    this._isMounted &&
+      this.setState({
+        artists: arrayedAR,
+        albums: arrayedAB
+      });
+    console.log("setted this.state.artists, albums");
+    selectSongDatas = this.bySelect(selectSongDatas, 10, this.state.datas);
+    selectArtistDatas = this.bySelect(
+      selectArtistDatas,
+      10,
+      this.state.artists
+    );
     selectAlbumDatas = this.bySelect(selectAlbumDatas, 10, this.state.albums);
-    currentPlayCheck = document.querySelectorAll("audio");
-    this.setState({
-      isLoading: false
-    });
+
+    this._isMounted &&
+      this.setState({
+        isLoading: false
+      });
+    // currentPlayCheck = document.querySelectorAll("audio");
   }
   bySelect = (anArray, num, stateLocation) => {
-    this.setState({
-      isLoading: true
-    });
     anArray = [];
     for (let i = 0; i < stateLocation.length; i++) {
       let index = Math.floor(i.toString() / num);
@@ -89,9 +109,7 @@ class Result extends React.Component {
       }
       anArray[index].push(stateLocation[i]);
     }
-    this.setState({
-      isLoading: true
-    });
+    // currentPlayCheck = document.querySelectorAll("audio");
     return anArray;
   };
   checkNeedRefresh() {
@@ -115,51 +133,90 @@ class Result extends React.Component {
     window.scroll({ top: distance, behavior: "smooth" });
   };
   selectSongHandler = e => {
+    this._isMounted &&
+      this.setState({
+        isLoading: true
+      });
     selectSongDatas = this.bySelect(
       selectSongDatas,
       e.target.value,
       this.state.datas
     );
+    this._isMounted &&
+      this.setState({
+        isLoading: false
+      });
+  };
+  selectArtistHandler = e => {
+    this._isMounted &&
+    this.setState({
+      isLoading: true
+    });
+    selectArtistDatas = this.bySelect(
+      selectArtistDatas,
+      e.target.value,
+      this.state.artists
+    );
+    this._isMounted &&
+    this.setState({
+      isLoading: false
+    });
   };
   selectAlbumHandler = e => {
+    this._isMounted &&
+    this.setState({
+      isLoading: true
+    });
     selectAlbumDatas = this.bySelect(
       selectAlbumDatas,
       e.target.value,
       this.state.albums
     );
-  };
-  songPageHandler = e => {
-    currentPlayCheck.forEach(each => (each.paused ? null : each.pause()));
-    currentPlayCheck = document.querySelectorAll("audio");
+    this._isMounted &&
     this.setState({
-      songPage: e.target.value - 1
+      isLoading: false
     });
+  };
+  buttonBackgroundChanger(preButton, target) {
     if (!preSongButton) {
-      preSongButton = e.target;
+      preButton = target;
     } else {
-      preSongButton.style.backgroundColor = "white";
-      preSongButton = e.target;
+      preButton.style.backgroundColor = "white";
+      preButton = target;
     }
-    e.target.style.backgroundColor = "rgb(200,200,200)";
+    target.style.backgroundColor = "rgb(200,200,200)";
+    return preButton;
+  }
+  songPageHandler = e => {
+    // currentPlayCheck.forEach(each => (each.paused ? null : each.pause()));
+    // currentPlayCheck = document.querySelectorAll("audio");
+    // console.log(currentPlayCheck)
+    this._isMounted &&
+      this.setState({
+        songPage: e.target.value - 1
+      });
+    preSongButton = this.buttonBackgroundChanger(preSongButton, e.target);
+  };
+  artistPageHandler = e => {
+    this._isMounted &&
+      this.setState({
+        artistPage: e.target.value - 1
+      });
+    preArtistButton = this.buttonBackgroundChanger(preArtistButton, e.target);
   };
   albumPageHandler = e => {
-    this.setState({
-      albumPage: e.target.value - 1
-    });
-    if (!preAlbumButton) {
-      preAlbumButton = e.target;
-    } else {
-      preAlbumButton.style.backgroundColor = "white";
-      preAlbumButton = e.target;
-    }
-    e.target.style.backgroundColor = "rgb(200,200,200)";
+    this._isMounted &&
+      this.setState({
+        albumPage: e.target.value - 1
+      });
+    preAlbumButton = this.buttonBackgroundChanger(preAlbumButton, e.target);
   };
+
   render() {
     this.checkNeedRefresh();
     const {
       state: { datas, isLoading }
     } = this;
-
     return (
       <Container>
         <Navigator>
@@ -189,10 +246,12 @@ class Result extends React.Component {
         <Songs>
           {selectSongDatas.length > 0 ? (
             selectSongDatas[this.state.songPage]?.map((each, index) => {
+              console.log("return song part");
+              console.log(each.preview)
               return (
                 <Song
                   key={index}
-                  id={`${each.id}`}
+                  id={`resultSongPage${each.id}`}
                   title={each.title}
                   preview={each.preview}
                   artist={each.artist.name}
@@ -208,20 +267,34 @@ class Result extends React.Component {
         </Songs>
         <Div>
           <Sort ref={this.gotoArtist}>BY ARTISTS</Sort>
+          <Select onChange={this.selectArtistHandler}>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+          </Select>
+          {selectArtistDatas?.map((each, index) => (
+            <PageButton
+              key={index}
+              id={`artistPageButton${index}`}
+              onClick={this.artistPageHandler}
+              value={index + 1}
+            >
+              {index + 1}
+            </PageButton>
+          ))}
         </Div>
         <Artists>
-          {this.state.artists?.length > 0 ? (
-            this.state.artists.map((each, index) => {
-              return (
-                <Artist
-                  key={index}
-                  id={index}
-                  artist={each.id}
-                  name={each.name}
-                  poster={each.picture_medium}
-                ></Artist>
-              );
-            })
+          {selectArtistDatas?.length > 0 ? (
+            selectArtistDatas[this.state.artistPage]?.map((each, index) => {
+              console.log('return artist part')
+              return <Artist
+                key={index}
+                id={index}
+                artist={each.id}
+                name={each.name}
+                poster={each.picture_medium}
+              ></Artist>
+  })
           ) : isLoading ? (
             <Loading>Loading..</Loading>
           ) : (
@@ -238,7 +311,7 @@ class Result extends React.Component {
           {selectAlbumDatas?.map((each, index) => (
             <PageButton
               key={index}
-              id={`songAlbumButton${index}`}
+              id={`albumPageButton${index}`}
               onClick={this.albumPageHandler}
               value={index + 1}
             >
@@ -247,16 +320,17 @@ class Result extends React.Component {
           ))}
         </Div>
         <Albums>
-          {this.state.albums?.length > 0 ? (
-            selectAlbumDatas[this.state.albumPage]?.map((each, index) => (
-              <Album
+          {selectAlbumDatas?.length > 0 ? (
+            selectAlbumDatas[this.state.albumPage]?.map((each, index) => {
+             console.log('return album part')
+              return <Album
                 key={index}
                 id={index}
                 album={each.id}
                 title={each.title}
                 poster={each.cover_medium}
               ></Album>
-            ))
+            })
           ) : isLoading ? (
             <Loading>Loading..</Loading>
           ) : (

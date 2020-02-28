@@ -27,11 +27,11 @@ class Reco extends React.Component {
     //yes music before
     if (currentAudio) {
       //pass to pre
-      const preAudio = document.querySelector(`#${currentAudio}`);
+      const preAudio = currentAudio;
       preAudio.pause();
     }
     //set as now
-    currentAudio = audio.id;
+    currentAudio = audio;
     audio.addEventListener("ended", this.endedHandler);
     audio.addEventListener("pause", this.pauseHandler);
     audio.play();
@@ -66,7 +66,7 @@ class Reco extends React.Component {
                   🎼
                 </span>
               </Button>
-              <audio className="audio" id={`audioReco${this.props.id}`}>
+              <audio className="audio" id={`reco${this.props.id}`}>
                 <source src={`${this.props.preview}`}></source>
               </audio>
             </div>

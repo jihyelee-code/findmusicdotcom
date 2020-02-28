@@ -4,15 +4,22 @@ import Song from "../components/Song";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
-
+const CancelToken = axios.CancelToken;
+let cancel;
 export class Artist_title extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.match.params.id
+      id: props.match.params.id,
     };
+    this._isMounted = false;
+  }
+  componentWillUnmount(){
+    cancel();
+    this._isMounted = false;
   }
   async componentDidMount() {
+    this._isMounted = true;
     const id = this.state.id;
     const proxyURL = "https://cors-anywhere.herokuapp.com/";
     const URL = `https://api.deezer.com/artist/${id}/top?`;
@@ -25,14 +32,17 @@ export class Artist_title extends React.Component {
         "Access-Control-Allow-Origin": "*",
         "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
         "x-rapidapi-key": "03afeef36cmsh1bdcf2e9a60f303p19457cjsn1f84e9465bd0"
-      }
+      },
+      calcelToken: new CancelToken (function executor(c){
+        cancel=c;
+      })
     });
 
     const mapped = data.map(each => each.album.title);
     const setted = new Set(mapped);
     const newArray = Array.from(setted);
     newArray.sort((a, b) => (a > b ? 1 : -1));
-    this.setState({
+    this._isMounted&&this.setState({
       data: data,
       selected: data,
       album: newArray
@@ -43,14 +53,14 @@ export class Artist_title extends React.Component {
     window.scroll({ top: 0, behavior: "smooth" });
   };
   changeHandler = e => {
-    this.setState({
+    this._isMounted&&this.setState({
       selected: this.state.data
     });
     if (e.target.value !== "ALL") {
       const selected = this.state.data.filter(
         each => each.album.title === e.target.value
       );
-      this.setState({
+      this._isMounted&&this.setState({
         selected
       });
 
@@ -108,7 +118,7 @@ export class Artist_title extends React.Component {
                 </Info>
                 <Song
                   key={index}
-                  id={index}
+                  id={`artistPage${each.id}`}
                   title={each.title}
                   preview={each.preview}
                   artist={each.artist.name}

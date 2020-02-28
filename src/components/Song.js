@@ -14,27 +14,25 @@ class Song extends React.Component {
     e.preventDefault();
     const audio = e.currentTarget.nextElementSibling;
     console.log('-----------clicked', audio)
+    // audio play
     if (this.state.audio) {
       this.setState({
         audio: false
       });
       audio.pause();
     } else {
+    //non audio play
       if (currentAudio) {
-        const preAudio = document.querySelector(`#${currentAudio}`);
-        console.log('preAudio', preAudio)
-        if (preAudio) {
+        const preAudio = currentAudio;
+        // if (preAudio) {
           preAudio.pause();
-          console.log(preAudio,' paused')
-        }
+        // }
       }
-      currentAudio = audio.id;
-      console.log('new Audio', currentAudio)
+      currentAudio = audio;
       this.setState({
         audio: true
       });
       audio.play();
-      console.log(currentAudio, 'played')
       audio.addEventListener("ended", this.stopHandler);
       audio.addEventListener("pause", this.stopHandler);
     }
@@ -42,13 +40,11 @@ class Song extends React.Component {
   stopHandler = e => {
     e.preventDefault();
     this.setState({
-      hover: false,
       audio: false
     });
   };
   render() {
     const { props } = this;
-    // console.log(props.preview)
     return (
       <Container>
         <Poster id={props.id} poster={props.album}></Poster>
@@ -60,7 +56,7 @@ class Song extends React.Component {
               🎼
             </span>
           </Button>
-          <audio id={`audioSong${props.id}`}>
+          <audio id={props.id}>
             <source src={props.preview}></source>
           </audio>
         </Preview>
