@@ -13,7 +13,6 @@ class Song extends React.Component {
   clickHandler = e => {
     e.preventDefault();
     const audio = e.currentTarget.nextElementSibling;
-    console.log('-----------clicked', audio)
     // audio play
     if (this.state.audio) {
       this.setState({
@@ -84,14 +83,11 @@ const Poster = styled.div`
 `;
 
 const Title = styled.span`
-  /* background-color:yellow; */
 `;
 const Singer = styled.span`
   text-align: center;
-  /* background-color:pink; */
 `;
 const Preview = styled.div`
-  /* background-color:black; */
 `;
 const Button = styled.button`
   background-color: rgba(0, 0, 0, 0);

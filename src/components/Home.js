@@ -14,18 +14,14 @@ const Container = styled.div`
   position: sticky;
   top: -80px;
   background-color: rgba(240, 240, 240, 0.85);
-  /* background: inherit; */
   order: 1;
-  z-index:1;
-  /* opacity:0.8; */
+  z-index: 1;
 `;
 const Header = styled.div`
-  width: 100%;
-  /* height: 200px; */
-  padding: 50px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 const Title = styled.h1`
   font-size: 32px;
@@ -43,14 +39,12 @@ const Search = styled.div`
   border-radius: 30px;
   border: 3px solid rgba(24, 21, 50, 0.55);
   outline: none;
-  /* margin: 20px 0; */
+  margin: 20px 0;
   color: #333;
   background-color: rgba(250, 250, 250, 0.85);
-  /* box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.17); */
 `;
 const SearchBar = styled.input`
   background-color: rgba(0, 0, 0, 0);
-  /* background-color:pink; */
   margin-right: 10px;
   border: 0;
   outline: 0;
@@ -93,25 +87,23 @@ class Home extends React.Component {
 
   render() {
     return (
-      
-        <Container>
-          <Header>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <Title>FIND MUSIC . COM</Title>
+      <Container>
+        <Header>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Title>FIND MUSIC . COM</Title>
+          </Link>
+          <Search>
+            <SearchBar
+              id="searchBar"
+              onChange={this.keyChangeHandler}
+              onKeyDown={this.keyDownHandler}
+            ></SearchBar>
+            <Link to={`/${this.state.input}`}>
+              <Button id="go">GO</Button>
             </Link>
-            <Search>
-              <SearchBar
-                id="searchBar"
-                onChange={this.keyChangeHandler}
-                onKeyDown={this.keyDownHandler}
-              ></SearchBar>
-              <Link to={`/${this.state.input}`}>
-                <Button id="go">GO</Button>
-              </Link>
-            </Search>
-          </Header>
-        </Container>
-      
+          </Search>
+        </Header>
+      </Container>
     );
   }
 }

@@ -56,7 +56,6 @@ class Result extends React.Component {
       this.setState({
         datas: data
       });
-    console.log("setted this.state.datas");
     const newMapAR = data.map(each => each.artist.id);
     const settedAR = new Set(newMapAR);
     const arrayedAR = Array.from(settedAR);
@@ -85,7 +84,6 @@ class Result extends React.Component {
         artists: arrayedAR,
         albums: arrayedAB
       });
-    console.log("setted this.state.artists, albums");
     selectSongDatas = this.bySelect(selectSongDatas, 10, this.state.datas);
     selectArtistDatas = this.bySelect(
       selectArtistDatas,
@@ -188,9 +186,6 @@ class Result extends React.Component {
     return preButton;
   }
   songPageHandler = e => {
-    // currentPlayCheck.forEach(each => (each.paused ? null : each.pause()));
-    // currentPlayCheck = document.querySelectorAll("audio");
-    // console.log(currentPlayCheck)
     this._isMounted &&
       this.setState({
         songPage: e.target.value - 1
@@ -215,7 +210,7 @@ class Result extends React.Component {
   render() {
     this.checkNeedRefresh();
     const {
-      state: { datas, isLoading }
+      state: { isLoading }
     } = this;
     return (
       <Container>
@@ -246,8 +241,6 @@ class Result extends React.Component {
         <Songs>
           {selectSongDatas.length > 0 ? (
             selectSongDatas[this.state.songPage]?.map((each, index) => {
-              console.log("return song part");
-              console.log(each.preview)
               return (
                 <Song
                   key={index}
@@ -286,7 +279,6 @@ class Result extends React.Component {
         <Artists>
           {selectArtistDatas?.length > 0 ? (
             selectArtistDatas[this.state.artistPage]?.map((each, index) => {
-              console.log('return artist part')
               return <Artist
                 key={index}
                 id={index}
@@ -322,7 +314,6 @@ class Result extends React.Component {
         <Albums>
           {selectAlbumDatas?.length > 0 ? (
             selectAlbumDatas[this.state.albumPage]?.map((each, index) => {
-             console.log('return album part')
               return <Album
                 key={index}
                 id={index}

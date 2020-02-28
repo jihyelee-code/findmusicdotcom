@@ -47,7 +47,7 @@ export class Artist_title extends React.Component {
       selected: data,
       album: newArray
     });
-    // console.log(data)
+  
   }
   topHandler = e => {
     window.scroll({ top: 0, behavior: "smooth" });
