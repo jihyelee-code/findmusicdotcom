@@ -27,12 +27,15 @@ class Reco extends React.Component {
         });
   };
   clickHandler = e => {
+    //pause
     if(!this.audioRef.current.paused){
       this.audioRef.current.pause();  
       this.setState({
         audio: false
       });
     }else{
+      //play
+      this.audioRef.current.load();
       this.audioRef.current.play();
       this.setState({
         audio: true

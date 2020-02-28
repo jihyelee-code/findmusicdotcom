@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-let currentAudio = "";
 class Song extends React.Component {
   constructor(props) {
     //id, title, preview, artist, album
@@ -16,11 +15,15 @@ class Song extends React.Component {
     e.preventDefault();
     if (!this.audioRef.current.paused) {
       this.audioRef.current.pause();
+      this.audioRef.current.currentTime=0;
+      this.audioRef.current.controls=false;
       this.setState({
         audio: false
       });
     } else {
+      this.audioRef.current.load();
       this.audioRef.current.play();
+      this.audioRef.current.controls=true;
         this.setState({
         audio: true
       });

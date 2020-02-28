@@ -56,7 +56,7 @@ class Result extends React.Component {
       this.setState({
         datas: data
       });
-      //organize artist data
+    //organize artist data
     const newMapAR = data.map(each => each.artist.id);
     const settedAR = new Set(newMapAR);
     const arrayedAR = Array.from(settedAR);
@@ -86,7 +86,7 @@ class Result extends React.Component {
         artists: arrayedAR,
         albums: arrayedAB
       });
-      //list with default value 10 items
+    //list with default value 10 items
     selectSongDatas = this.bySelect(selectSongDatas, 10, this.state.datas);
     selectArtistDatas = this.bySelect(
       selectArtistDatas,
@@ -99,7 +99,6 @@ class Result extends React.Component {
       this.setState({
         isLoading: false
       });
-    
   }
   //user click 10/20/30 list item counts
   bySelect = (anArray, num, stateLocation) => {
@@ -111,7 +110,7 @@ class Result extends React.Component {
       }
       anArray[index].push(stateLocation[i]);
     }
-    
+
     return anArray;
   };
 
@@ -158,34 +157,34 @@ class Result extends React.Component {
   //artist list count handler
   selectArtistHandler = e => {
     this._isMounted &&
-    this.setState({
-      isLoading: true
-    });
+      this.setState({
+        isLoading: true
+      });
     selectArtistDatas = this.bySelect(
       selectArtistDatas,
       e.target.value,
       this.state.artists
     );
     this._isMounted &&
-    this.setState({
-      isLoading: false
-    });
+      this.setState({
+        isLoading: false
+      });
   };
   //album list count handler
   selectAlbumHandler = e => {
     this._isMounted &&
-    this.setState({
-      isLoading: true
-    });
+      this.setState({
+        isLoading: true
+      });
     selectAlbumDatas = this.bySelect(
       selectAlbumDatas,
       e.target.value,
       this.state.albums
     );
     this._isMounted &&
-    this.setState({
-      isLoading: false
-    });
+      this.setState({
+        isLoading: false
+      });
   };
 
   buttonBackgroundChanger(preButton, target) {
@@ -196,6 +195,14 @@ class Result extends React.Component {
       preButton = target;
     }
     target.style.backgroundColor = "rgb(200,200,200)";
+    //stop all audio
+    document
+      .querySelectorAll("audio")
+      .forEach(each => {
+        if(!each.paused) {
+          each.pause();
+          each.controls=false;
+        }});
     return preButton;
   }
   //song pages
@@ -295,14 +302,16 @@ class Result extends React.Component {
         <Artists>
           {selectArtistDatas?.length > 0 ? (
             selectArtistDatas[this.state.artistPage]?.map((each, index) => {
-              return <Artist
-                key={index}
-                id={index}
-                artist={each.id}
-                name={each.name}
-                poster={each.picture_medium}
-              ></Artist>
-  })
+              return (
+                <Artist
+                  key={index}
+                  id={index}
+                  artist={each.id}
+                  name={each.name}
+                  poster={each.picture_medium}
+                ></Artist>
+              );
+            })
           ) : isLoading ? (
             <Loading>Loading..</Loading>
           ) : (
@@ -330,13 +339,15 @@ class Result extends React.Component {
         <Albums>
           {selectAlbumDatas?.length > 0 ? (
             selectAlbumDatas[this.state.albumPage]?.map((each, index) => {
-              return <Album
-                key={index}
-                id={index}
-                album={each.id}
-                title={each.title}
-                poster={each.cover_medium}
-              ></Album>
+              return (
+                <Album
+                  key={index}
+                  id={index}
+                  album={each.id}
+                  title={each.title}
+                  poster={each.cover_medium}
+                ></Album>
+              );
             })
           ) : isLoading ? (
             <Loading>Loading..</Loading>

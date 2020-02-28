@@ -10,11 +10,11 @@ export class Artist_title extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.match.params.id,
+      id: props.match.params.id
     };
     this._isMounted = false;
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     cancel();
     this._isMounted = false;
   }
@@ -26,15 +26,15 @@ export class Artist_title extends React.Component {
     const {
       data: { data }
     } = await axios.get(proxyURL + URL, {
-      params:{limit:50},
+      params: { limit: 50 },
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
         "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
         "x-rapidapi-key": "03afeef36cmsh1bdcf2e9a60f303p19457cjsn1f84e9465bd0"
       },
-      calcelToken: new CancelToken (function executor(c){
-        cancel=c;
+      calcelToken: new CancelToken(function executor(c) {
+        cancel = c;
       })
     });
 
@@ -43,35 +43,41 @@ export class Artist_title extends React.Component {
     const setted = new Set(mapped);
     const newArray = Array.from(setted);
     newArray.sort((a, b) => (a > b ? 1 : -1));
-    this._isMounted&&this.setState({
-      data: data,
-      selected: data,
-      album: newArray
-    });
-  
+    this._isMounted &&
+      this.setState({
+        data: data,
+        selected: data,
+        album: newArray
+      });
   }
   //go to top
   topHandler = e => {
     window.scroll({ top: 0, behavior: "smooth" });
   };
-  //user change album 
+  //user change album
   changeHandler = e => {
-    this._isMounted&&this.setState({
-      selected: this.state.data
-    });
+    this._isMounted &&
+      this.setState({
+        selected: this.state.data
+      });
     if (e.target.value !== "ALL") {
       const selected = this.state.data.filter(
         each => each.album.title === e.target.value
       );
-      this._isMounted&&this.setState({
-        selected
-      });
-
+      this._isMounted &&
+        this.setState({
+          selected
+        });
     }
+    //stop all audio
+    document
+      .querySelectorAll("audio")
+      .forEach(each => {
+        if(!each.paused) {
+          each.pause();
+          each.controls=false;
+        }});
   };
-  // reLoadHandler = e => {
-    
-  // };
   render() {
     return (
       <Container>
@@ -95,7 +101,11 @@ export class Artist_title extends React.Component {
                     <Title>{each.album.type} : </Title>
                     <Link
                       to={`/album/${each.album.id}`}
-                      style={{ textDecoration: "none", color: "black",  fontWeight:"bolder"}}
+                      style={{
+                        textDecoration: "none",
+                        color: "black",
+                        fontWeight: "bolder"
+                      }}
                     >
                       <Content>{each.album.title}</Content>
                     </Link>
@@ -109,13 +119,13 @@ export class Artist_title extends React.Component {
                         //   key={index}
                         //   style={{ textDecoration: "none", color: "black" }}
                         // >
-                          <Content key={index}>
-                            {index < each.contributors.length - 1 && index < 1
-                              ? `${ele.name} & `
-                              : ele.name}
-                          </Content>
-                        // </Link>
-                      ) : null
+                        <Content key={index}>
+                          {index < each.contributors.length - 1 && index < 1
+                            ? `${ele.name} & `
+                            : ele.name}
+                        </Content>
+                      ) : // </Link>
+                      null
                     )}
                   </Div>
                 </Info>
@@ -200,7 +210,7 @@ const Songs = styled.div`
 `;
 const Section = styled.div``;
 const Div = styled.div`
-  padding:0 10px;
+  padding: 0 10px;
 `;
 const Info = styled.div`
   background-color: rgba(240, 240, 240, 0.85);
