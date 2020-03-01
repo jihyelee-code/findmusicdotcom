@@ -422,6 +422,9 @@ const Select = styled.select`
   outline: 0;
   cursor: pointer;
   text-align: center;
+  @media (max-width:599px){
+    display:block;
+  }
 `;
 
 const byOrders = css`
@@ -432,6 +435,7 @@ const byOrders = css`
   overflow-x: auto;
   @media (max-width: 599px) {
     grid-template-columns: 1fr;
+    width:100%;
   }
 `;
 const Songs = styled.div`
