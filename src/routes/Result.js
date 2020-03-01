@@ -436,6 +436,7 @@ const byOrders = css`
   @media (max-width: 599px) {
     grid-template-columns: 1fr;
     width:100%;
+    margin-top:10px;
   }
 `;
 const Songs = styled.div`
