@@ -207,6 +207,11 @@ const Songs = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   padding: 50px 0;
+  @media (max-width:599px){
+    width:100%;
+    grid-template-columns:1fr;
+    align-items:center;
+  }
 `;
 const Section = styled.div``;
 const Div = styled.div`

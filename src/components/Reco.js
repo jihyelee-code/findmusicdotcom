@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-let currentAudio = "";
 class Reco extends React.Component {
   constructor(props) {
     //title, preview, album
@@ -43,10 +42,6 @@ class Reco extends React.Component {
     }
     
   };
-  endedHandler = e => {
-    // console.log("ENDED");
-    currentAudio = "";
-  };
   pauseHandler = e => {
     // console.log("-----PAUSED");
     this.setState({
@@ -74,7 +69,6 @@ class Reco extends React.Component {
                 className="audio"
                 id={`reco${this.props.id}`}
                 ref={this.audioRef}
-                onEnded={this.endedHandler}
               >
                 <source
                   src={`${this.props.preview}`}
@@ -108,6 +102,10 @@ const Container = styled.div`
   color: white;
   font-weight: 500px;
   box-shadow: 17px 16px 0px -7px rgba(30, 30, 30, 0.75);
+  @media (max-width:599px){
+    width:130px;
+    height:170px;
+  }
 `;
 
 const Title = styled.div`
@@ -124,6 +122,9 @@ const Title = styled.div`
     transform: scale(1.03);
     font-size: 1.9rem;
     background-color: rgba(240, 240, 240, 0.5);
+  }
+  @media (max-width:599px){
+    font-size:1.2rem;
   }
 `;
 const Button = styled.button`

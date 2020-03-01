@@ -25,7 +25,7 @@ class Body extends React.Component {
     } = await axios.get(`${URL}`, {
       params: {
         q: RECO[num],
-        limit: 20
+        limit: 40
       },
       method: "GET",
       headers: {
@@ -45,8 +45,7 @@ class Body extends React.Component {
         <Recommend>
           {this.state.posts ? (
             <Div>
-              <Title>Today's SINGER</Title>
-              <SubTitle>{this.state.name}</SubTitle>
+              <Title>{this.state.name}</Title>
             </Div>
           ) : null}
           <Albums>
@@ -61,7 +60,6 @@ class Body extends React.Component {
             ))}
           </Albums>
         </Recommend>
-        
       </Container>
     );
   }
@@ -84,23 +82,16 @@ const Recommend = styled.div`
 
 const Div = styled.div`
   width: 80%;
+  display: flex;
 `;
 const Title = styled.h1`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bolder;
   background-color: rgba(240, 240, 240, 0.85);
   width: max-content;
-  padding: .7rem;
-  border-radius:25px;
-`;
-const SubTitle = styled.h1`
-  font-size: 1rem;
-  margin: 20px;
-  font-weight: bolder;
-  background-color: rgba(240, 240, 240, 0.85);
-  width: max-content;
-  padding: .5rem;
-  border-radius:25px;
+  padding: 20px 30px;
+  border-radius: 35px;
+  margin-bottom:50px;
 `;
 const Albums = styled.div`
   width: 80%;
@@ -109,10 +100,11 @@ const Albums = styled.div`
   grid-gap: 30px;
   justify-items: center;
   overflow-x: auto;
-  overflow-y: hidden;
   padding: 50px 30px;
-  /* background-color: rgba(240, 240, 240, 0.45); */
   background-color: rgba(240, 240, 240, 0.55);
-  border-radius:50px;
+  border-radius: 50px;
+  @media (max-width:599px){
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 export default Body;

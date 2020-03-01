@@ -1,9 +1,10 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import axios from "axios";
 import Song from "../components/Song";
 import Artist from "../components/Artist";
 import Album from "../components/Album";
+
 let cancel;
 const CancelToken = axios.CancelToken;
 const URL = "https://deezerdevs-deezer.p.rapidapi.com/search?";
@@ -41,7 +42,7 @@ class Result extends React.Component {
     } = await axios.get(`${URL}`, {
       params: {
         q: this.state.id,
-        limit: 50
+        limit: 100
       },
       method: "GET",
       headers: {
@@ -196,13 +197,12 @@ class Result extends React.Component {
     }
     target.style.backgroundColor = "rgb(200,200,200)";
     //stop all audio
-    document
-      .querySelectorAll("audio")
-      .forEach(each => {
-        if(!each.paused) {
-          each.pause();
-          each.controls=false;
-        }});
+    document.querySelectorAll("audio").forEach(each => {
+      if (!each.paused) {
+        each.pause();
+        each.controls = false;
+      }
+    });
     return preButton;
   }
   //song pages
@@ -239,9 +239,9 @@ class Result extends React.Component {
       <Container>
         <Navigator>
           <Button onClick={this.topHandler}>TOP</Button>
-          <Button onClick={this.songHandler}>BY SONGS</Button>
-          <Button onClick={this.artistHandler}>BY ARTISTS</Button>
-          <Button onClick={this.albumHandler}>BY ALBUMS</Button>
+          <Button onClick={this.songHandler}>SONGS</Button>
+          <Button onClick={this.artistHandler}>ARTISTS</Button>
+          <Button onClick={this.albumHandler}>ALBUMS</Button>
         </Navigator>
         <Div>
           <Sort ref={this.gotoSong}>BY SONGS</Sort>
@@ -271,6 +271,7 @@ class Result extends React.Component {
                   title={each.title}
                   preview={each.preview}
                   artist={each.artist.name}
+                  // artistId = {each.artisst.id}
                   album={each.album.cover_medium}
                 ></Song>
               );
@@ -392,9 +393,11 @@ const Button = styled.button`
   padding: 0 1rem;
   border: 3px solid rgba(24, 21, 50, 0.55);
   width: 150px;
-  /* height:1.6rem; */
   outline: 0;
   cursor: pointer;
+  @media (max-width:599px){
+    margin:3px;
+  }
 `;
 const PageButton = styled.button`
   font-size: 1rem;
@@ -420,26 +423,25 @@ const Select = styled.select`
   cursor: pointer;
   text-align: center;
 `;
-const Songs = styled.div`
+
+const byOrders = css`
   width: 80%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   overflow-x: auto;
+  @media (max-width: 599px) {
+    grid-template-columns: 1fr;
+  }
+`;
+const Songs = styled.div`
+  ${byOrders}
 `;
 const Albums = styled.div`
-  width: 80%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
-  overflow-x: auto;
+  ${byOrders}
 `;
 const Artists = styled.div`
-  width: 80%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
-  overflow-x: auto;
+  ${byOrders}
 `;
 const Div = styled.div`
   width: 80%;
@@ -457,16 +459,16 @@ const Sort = styled.h1`
   align-self: flex-start;
 `;
 
-const NoResult = styled.div`
+const noShow = css`
   width: 100%;
   background-color: rgba(240, 240, 240, 0.55);
   padding: 2rem;
   color: rgb(40, 40, 40);
 `;
+const NoResult = styled.div`
+  ${noShow}
+`;
 const Loading = styled.div`
-  width: 100%;
-  background-color: rgba(240, 240, 240, 0.55);
-  padding: 2rem;
-  color: rgb(40, 40, 40);
+  ${noShow}
 `;
 export default Result;

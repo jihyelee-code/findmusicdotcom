@@ -100,6 +100,9 @@ const Div = styled.div`
   width: 50%;
   padding: 30px 0;
   margin: 50px;
+  @media (max-width:599px){
+    width:90%;
+  }
 `;
 const Poster = styled.div`
   background-image: url(${props => props.poster});
@@ -138,6 +141,10 @@ const Songs = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   overflow-x: auto;
+  @media (max-width:599px){
+    grid-template-columns:1fr;
+    width:100%;
+  }
 `;
 
 export default Album_title;

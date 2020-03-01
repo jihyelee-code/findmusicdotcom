@@ -99,6 +99,7 @@ class Home extends React.Component {
           <Search>
             <SearchBar
               id="searchBar"
+              placeholder="ex) Luis Fonsi"
               onChange={this.keyChangeHandler}
               onKeyDown={this.keyDownHandler}
             ></SearchBar>
