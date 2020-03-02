@@ -14,6 +14,14 @@ export class Artist_title extends React.Component {
     };
     this._isMounted = false;
   }
+  componentDidUpdate(prevProps, prevState){
+    if(prevProps.match.params.id !== this.props.match.params.id){
+      this.setState({
+        id:this.props.match.params.id
+      })
+      window.location.reload();
+    }
+  }
   componentWillUnmount() {
     cancel();
     this._isMounted = false;
@@ -70,13 +78,12 @@ export class Artist_title extends React.Component {
         });
     }
     //stop all audio
-    document
-      .querySelectorAll("audio")
-      .forEach(each => {
-        if(!each.paused) {
-          each.pause();
-          each.controls=false;
-        }});
+    document.querySelectorAll("audio").forEach(each => {
+      if (!each.paused) {
+        each.pause();
+        each.controls = false;
+      }
+    });
   };
   render() {
     return (
@@ -107,25 +114,19 @@ export class Artist_title extends React.Component {
                         fontWeight: "bolder"
                       }}
                     >
-                      <Content>{each.album.title}</Content>
+                      <Album>{each.album.title}</Album>
                     </Link>
                   </Div>
                   <Div>
                     <Title>Contributors : </Title>
                     {each.contributors.map((ele, index) =>
                       index < 2 ? (
-                        // <Link
-                        //   to={`/artist/${ele.id}`}
-                        //   key={index}
-                        //   style={{ textDecoration: "none", color: "black" }}
-                        // >
-                        <Content key={index}>
-                          {index < each.contributors.length - 1 && index < 1
-                            ? `${ele.name} & `
-                            : ele.name}
-                        </Content>
-                      ) : // </Link>
-                      null
+                         <Content key={index}>
+                            {index < each.contributors.length - 1 && index < 1
+                              ? `${ele.name} & `
+                              : ele.name}
+                          </Content>
+                      ) : null
                     )}
                   </Div>
                 </Info>
@@ -135,6 +136,7 @@ export class Artist_title extends React.Component {
                   title={each.title}
                   preview={each.preview}
                   artist={each.artist.name}
+                  artistId={each.artist.id}
                   album={each.album.cover_small}
                 ></Song>
               </Section>
@@ -155,6 +157,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 200px;
 `;
 const Navigator = styled.div`
   padding-top: 10px;
@@ -207,10 +210,10 @@ const Songs = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   padding: 50px 0;
-  @media (max-width:599px){
-    width:100%;
-    grid-template-columns:1fr;
-    align-items:center;
+  @media (max-width: 599px) {
+    width: 100%;
+    grid-template-columns: 1fr;
+    align-items: center;
   }
 `;
 const Section = styled.div``;
@@ -231,6 +234,12 @@ const Title = styled.div`
   font-size: 1rem;
   font-weight: border;
   padding-bottom: 5px;
+`;
+const Album = styled.span`
+  font-size: 1rem;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 const Content = styled.span`
   font-size: 1rem;

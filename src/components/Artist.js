@@ -4,14 +4,15 @@ import { Link } from "react-router-dom";
 import {PropTypes} from 'prop-types';
 class Artist extends React.Component {
   render() {
+    const {props} = this;
     return (
       <Link
-        to={`/artist/${this.props.artist}`}
+        to={`/artist/${props.artist}`}
         style={{ textDecoration: "none", color: "black" }}
       >
         <Contaier>
-          <Poster poster={this.props.poster}></Poster>
-          <Name>{this.props.name}</Name>
+          <Poster poster={props.poster}></Poster>
+          <Name>{props.name}</Name>
         </Contaier>
       </Link>
     );

@@ -53,16 +53,17 @@ class Reco extends React.Component {
     });
   };
   render() {
+    const {props, state} = this;
     return (
       <Container
-        poster={this.props.album.cover_medium}
+        poster={props.album.cover_medium}
         onMouseEnter={this.enterHandler}
         onMouseLeave={this.leaveHandler}
       >
         <Title>
-          {this.state.hover ? (
+          {state.hover ? (
             <div>
-              <Span>{this.props.album.title}</Span>
+              <Span>{props.album.title}</Span>
               <Button onClick={this.clickHandler}>
                 <span role="img" aria-label="img">
                   🎼
@@ -70,17 +71,17 @@ class Reco extends React.Component {
               </Button>
               <audio
                 className="audio"
-                id={`reco${this.props.id}`}
+                id={`reco${props.id}`}
                 ref={this.audioRef}
                 onPause={this.pauseHandler}
               >
                 <source
-                  src={`${this.props.preview}`}
+                  src={`${props.preview}`}
                 ></source>
               </audio>
             </div>
           ) : (
-            this.props.title
+            props.title
           )}
         </Title>
       </Container>

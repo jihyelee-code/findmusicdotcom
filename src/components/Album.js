@@ -4,15 +4,15 @@ import { Link } from "react-router-dom";
 import {PropTypes} from 'prop-types'
 class Album extends React.Component {
   render() {
-    
+    const {props} = this;
     return (
       <Link
-        to={`/album/${this.props.album}`}
+        to={`/album/${props.album}`}
         style={{ textDecoration: "none", color: "black" }}
       >
         <Container>
-          <Poster poster={this.props.poster}></Poster>
-          <Name>{this.props.title}</Name>
+          <Poster poster={props.poster}></Poster>
+          <Name>{props.title}</Name>
         </Container>
       </Link>
     );

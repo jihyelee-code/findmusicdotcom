@@ -45,7 +45,6 @@ const GlobalStyle = createGlobalStyle`
       z-index:-1;
     }
 `;
-
 function App() {
   const bgArray = [
     `url(${img0})`,
@@ -73,7 +72,7 @@ function App() {
   ];
   const bgNum = Math.floor(Math.random() * 22);
   document.querySelector("#root").style.backgroundImage = bgArray[bgNum];
-
+  
 
   return (
     <HashRouter>

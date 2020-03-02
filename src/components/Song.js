@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 class Song extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class Song extends React.Component {
       this.audioRef.current.currentTime = 0;
       this.audioRef.current.controls = false;
     } else {
-      document.querySelectorAll('audio').forEach(each=>each.pause());
+      document.querySelectorAll("audio").forEach(each => each.pause());
       this.audioRef.current.load();
       this.audioRef.current.play();
       this.audioRef.current.controls = true;
@@ -24,13 +25,19 @@ class Song extends React.Component {
   stopHandler = e => {
     this.audioRef.current.controls = false;
   };
+  
   render() {
     const { props } = this;
     return (
       <Container>
         <Poster id={props.id} poster={props.album}></Poster>
         <Title>{props.title}</Title>
-        <Singer>{props.artist}</Singer>
+        <Link
+          to={`/artist/${props.artistId}`}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <Singer>{props.artist}</Singer>
+        </Link>
         <Preview>
           <Button onClick={this.clickHandler}>
             <span role="img" aria-label="img">
@@ -79,6 +86,9 @@ const Poster = styled.div`
 const Title = styled.span``;
 const Singer = styled.span`
   text-align: center;
+  &:hover {
+    text-decoration: underline;
+  } 
 `;
 const Preview = styled.div``;
 const Button = styled.button`

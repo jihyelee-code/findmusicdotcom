@@ -65,6 +65,7 @@ export class Album_title extends React.Component {
                   title={each.title}
                   preview={each.preview}
                   artist={each.artist.name}
+                  artistId={each.artist.id}
                   album={this.state.data.cover_small}
                 ></Song>
               );
@@ -86,6 +87,7 @@ const Container = styled.div`
   align-items: center;
   padding: 30px 0;
   background-color: rgba(150, 150, 150, 0.6);
+  padding-bottom: 200px;
 `;
 const Loading = styled.div`
   width: 80%;
@@ -100,8 +102,8 @@ const Div = styled.div`
   width: 50%;
   padding: 30px 0;
   margin: 50px;
-  @media (max-width:599px){
-    width:90%;
+  @media (max-width: 599px) {
+    width: 90%;
   }
 `;
 const Poster = styled.div`
@@ -128,6 +130,9 @@ const Title = styled.div`
 `;
 const Artist = styled.div`
   font-size: 20px;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 const Genres = styled.div`
   font-size: 17px;
@@ -141,9 +146,9 @@ const Songs = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   overflow-x: auto;
-  @media (max-width:599px){
-    grid-template-columns:1fr;
-    width:100%;
+  @media (max-width: 599px) {
+    grid-template-columns: 1fr;
+    width: 100%;
   }
 `;
 

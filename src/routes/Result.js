@@ -189,7 +189,7 @@ class Result extends React.Component {
   };
 
   buttonBackgroundChanger(preButton, target) {
-    if (!preSongButton) {
+    if (!preButton) {
       preButton = target;
     } else {
       preButton.style.backgroundColor = "white";
@@ -271,7 +271,7 @@ class Result extends React.Component {
                   title={each.title}
                   preview={each.preview}
                   artist={each.artist.name}
-                  // artistId = {each.artisst.id}
+                  artistId = {each.artist.id}
                   album={each.album.cover_medium}
                 ></Song>
               );
@@ -369,7 +369,7 @@ const Container = styled.div`
   background-color: rgba(150, 150, 150, 0.6);
   color: rgb(40, 40, 40);
   min-height: 100vh;
-  padding-bottom: 50px;
+  padding-bottom: 200px;
 `;
 const Navigator = styled.div`
   /* background-color:black; */
