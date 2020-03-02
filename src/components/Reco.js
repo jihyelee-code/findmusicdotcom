@@ -11,13 +11,13 @@ class Reco extends React.Component {
       audio: false
     };
   }
-
+  //when mouse enter, hover always work
   enterHandler = e => {
     return this.setState({
       hover: true
     });
   };
-
+  //when mouse leave, set hover effect depends on audio play
   leaveHandler = e => {
     return this.state.audio
       ? null
@@ -27,6 +27,7 @@ class Reco extends React.Component {
   };
   clickHandler = e => {
     //pause
+    console.log('clicked')
     if(!this.audioRef.current.paused){
       this.audioRef.current.pause();  
       this.setState({
@@ -34,16 +35,18 @@ class Reco extends React.Component {
       });
     }else{
       //play
+      document.querySelectorAll('audio').forEach(each=>each.pause());
       this.audioRef.current.load();
       this.audioRef.current.play();
       this.setState({
-        audio: true
+        audio: true,
+        hover:true
       });
     }
     
   };
   pauseHandler = e => {
-    // console.log("-----PAUSED");
+    console.log("-----PAUSED");
     this.setState({
       audio: false,
       hover: false
@@ -69,10 +72,10 @@ class Reco extends React.Component {
                 className="audio"
                 id={`reco${this.props.id}`}
                 ref={this.audioRef}
+                onPause={this.pauseHandler}
               >
                 <source
                   src={`${this.props.preview}`}
-                  onPause={this.pauseHandler}
                 ></source>
               </audio>
             </div>

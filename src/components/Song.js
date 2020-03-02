@@ -6,34 +6,23 @@ class Song extends React.Component {
   constructor(props) {
     //id, title, preview, artist, album
     super(props);
-    this.state = {
-      audio: false
-    };
     this.audioRef = React.createRef();
   }
   clickHandler = e => {
     e.preventDefault();
     if (!this.audioRef.current.paused) {
       this.audioRef.current.pause();
-      this.audioRef.current.currentTime=0;
-      this.audioRef.current.controls=false;
-      this.setState({
-        audio: false
-      });
+      this.audioRef.current.currentTime = 0;
+      this.audioRef.current.controls = false;
     } else {
+      document.querySelectorAll('audio').forEach(each=>each.pause());
       this.audioRef.current.load();
       this.audioRef.current.play();
-      this.audioRef.current.controls=true;
-        this.setState({
-        audio: true
-      });
+      this.audioRef.current.controls = true;
     }
   };
   stopHandler = e => {
-    e.preventDefault();
-    this.setState({
-      audio: false
-    });
+    this.audioRef.current.controls = false;
   };
   render() {
     const { props } = this;
@@ -53,6 +42,7 @@ class Song extends React.Component {
             ref={this.audioRef}
             onEnded={this.stopHandler}
             onPause={this.stopHandler}
+            style={{ width: "50px" }}
           >
             <source src={props.preview}></source>
           </audio>
