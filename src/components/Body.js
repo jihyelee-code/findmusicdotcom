@@ -98,6 +98,7 @@ const ScrollTop = styled.button`
   position: sticky;
   top: 65px;
   z-index: 1;
+  display:none;
 `;
 const Container = styled.div`
   width: 100%;
